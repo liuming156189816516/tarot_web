@@ -1,0 +1,151 @@
+/**元素宽度、定位、overflow-hidden、box-shadow、背景颜色*/
+// 宽度
+.yx-w-750{ width: 750rpx; }
+.yx-w-all{ width: 100%; }
+.yx-h-all { height: 100%; }
+// 定位
+.yx-pos-fixed { position: fixed; }
+.yx-pos-relative { position: relative }
+.yx-pos-absolute { position: absolute }
+.yx-pos-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.yx-pos-fixed-bottom-center {
+	position: fixed;
+	left: 50%;
+	bottom: constant(safe-area-inset-bottom);
+	bottom: env(safe-area-inset-bottom);
+	transform: translateX(-50%);
+}
+.yx-pos-bottom {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: constant(safe-area-inset-bottom);
+	bottom: env(safe-area-inset-bottom);
+}
+// overflow-hidden
+.yx-overflow-hidden { overflow: hidden; }
+// box-shadow
+.yx-box-shadow { box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.06); }
+// 背景颜色
+.yx-bg-white { background-color: #fff }
+.yx-bg-transparent { background-color: transparent; }
+.yx-bg-grey { background-color: #f3f4f6; }
+// hover class
+.yx-click-opacity {
+  opacity: .8;
+}
+.yx-click-bg-grey {
+	background-color: #f4f4f4;
+}
+
+/**边框、边框圆角*/
+// 边框
+.yx-border {
+	border-width: 0.5px;
+	border-style: solid;
+	border-color: #dee2e6;
+}
+.yx-border-top {
+  border-top-width: 0.5px;
+  border-top-style: solid;
+  border-top-color: #EBEBEB;
+}
+.yx-border-right {
+  border-right-width: 0.5px;
+  border-right-style: solid;
+  border-right-color: #EBEBEB;
+}
+.yx-border-bottom {
+  border-bottom-width: 0.5px;
+  border-bottom-style: solid;
+  border-bottom-color: #EBEBEB;
+}
+.yx-border-left {
+  border-left-width: 0.5px;
+  border-left-style: solid;
+  border-left-color: #EBEBEB;
+}
+
+
+// 圆角
+@for $i from 4 through 60 {
+	.yx-rounded-#{$i} {
+		border-radius: $i + rpx;
+	}
+}
+.yx-rounded-c { border-radius: 50%;}
+
+/**margin、padding*/
+// 定义内外边距，历遍1-80
+@for $i from 0 through 120 {
+	// 只要双数和能被5除尽的数
+	@if $i % 2 == 0 or $i % 5 == 0 {
+		// 得出：u-margin-30或者u-m-30
+		.yx-p-x-#{$i} {
+			padding-left: $i + rpx!important;
+			padding-right: $i + rpx!important;
+		}
+		.yx-p-y-#{$i} {
+			padding-top: $i + rpx!important;
+			padding-bottom: $i + rpx!important;
+		}
+		.yx-m-x-#{$i} {
+			margin-left: $i + rpx!important;
+			margin-right: $i + rpx!important;
+		}
+		.yx-m-y-#{$i} {
+			margin-top: $i + rpx!important;
+			margin-bottom: $i + rpx!important;
+		}
+		.yx-m-#{$i} {
+			margin-left: $i + rpx!important;
+			margin-right: $i + rpx!important;
+			margin-top: $i + rpx!important;
+			margin-bottom: $i + rpx!important;
+		}
+		.yx-p-#{$i} {
+			padding-left: $i + rpx!important;
+			padding-right: $i + rpx!important;
+			padding-top: $i + rpx!important;
+			padding-bottom: $i + rpx!important
+		}
+		.yx-ml-#{$i} {
+			margin-left: $i + rpx!important;
+		}
+		.yx-mt-#{$i} {
+			margin-top: $i + rpx!important;
+		}
+		.yx-mr-#{$i} {
+			margin-right: $i + rpx!important;
+		}
+		.yx-mb-#{$i} {
+			margin-bottom: $i + rpx!important;
+		}
+		.yx-pl-#{$i} {
+			padding-left: $i + rpx!important;
+		}
+		.yx-pt-#{$i} {
+			padding-top: $i + rpx!important;
+		}
+		.yx-pr-#{$i} {
+			padding-right: $i + rpx!important;
+		}
+		.yx-pb-#{$i} {
+			padding-bottom: $i + rpx!important;
+		}
+	}
+}
+
+@for $i from 1 through 300 {
+	.yx-w-#{$i} {
+		width: $i + rpx!important;
+	}
+	.yx-h-#{$i} {
+		height: $i + rpx!important;
+	}
+}

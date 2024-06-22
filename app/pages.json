@@ -1,0 +1,58 @@
+{
+
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "AstroHealer",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/index/guodu",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/index/choupai",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/index/start_watch",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/index/details",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"globalStyle": {
+		"rpxCalcMaxDeviceWidth": 450, // rpx 计算所支持的最大设备宽度，单位 px，默认值为 960
+		"rpxCalcBaseDeviceWidth": 375, // rpx 计算使用的基准设备宽度，设备实际宽度超出 rpx 计算所支持的最大设备宽度时将按基准宽度计算，单位 px，默认值为 375
+		"rpxCalcIncludeWidth": 750,
+		"navigationBarTitleText": "",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+
+
+}

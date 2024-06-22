@@ -1,0 +1,215 @@
+<template>
+	<view class="index_contain">
+		<view class="index_contain_title">
+			<image class="" src="/static/image/title1.png" mode=""></image>
+		</view>
+
+		<view class="index_kapai_choose">
+			<view class="" :class="`index_kapai_choose_type${index}`" v-for="(item,index) in kapaiList"
+				:key="`kapai_${index}`">
+				<view class="index_kapai_choose_type_image">
+					<image :src="item.path" mode=""></image>
+				</view>
+			</view>
+			<!-- 			<view class="index_kapai_choose_type1">
+				<view class="index_kapai_choose_type_image">
+					<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/5_1.jpg" mode=""></image>
+				</view>
+			</view>
+			<view class="index_kapai_choose_type2">
+				<view class="index_kapai_choose_type_image">
+					<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/2_0.jpg" mode=""></image>
+				</view>
+			</view> -->
+
+			<view class="index_kapai_test yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
+				<view class="">
+					Is he/she the right
+				</view>
+				<view class="">
+					person for me
+				</view>
+			</view>
+			<view class="index_kapai_test1 yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
+				<view class="">
+					Is it possible for us
+				</view>
+				<view class="">
+					to get back together
+				</view>
+			</view>
+			<view class="index_kapai_test2  yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
+				<view class="">
+					What will happen when
+				</view>
+				<view class="">
+					we get back together
+				</view>
+			</view>
+		</view>
+
+
+		<view class="index_choose_gender yx-bg-white yx-m-x-60">
+			<view class="yx-flex-row-spaceB-center">
+				<view class="yx-fsize-30">
+					Your gender
+				</view>
+				<view class="yx-flex-row-start-center yx-ml-60">
+					<view class="yx-flex-row-start-center">
+						<view class="index_choose_btn yx-w-30 yx-h-30 yx-rounded-c"
+							:class="genderVal == 'female' ? 'index_choose_active_btn':''" @tap="genderVal = 'female'">
+
+						</view>
+						<text class="yx-text-666 yx-ml-10">female</text>
+					</view>
+					<view class="yx-flex-row-start-center yx-ml-60">
+						<view class="index_choose_btn  yx-w-30 yx-h-30 yx-rounded-c"
+							:class="genderVal == 'mate' ? 'index_choose_active_btn':''" @tap="genderVal = 'mate'">
+
+						</view>
+						<text class="yx-text-666 yx-ml-10">mate</text>
+					</view>
+				</view>
+			</view>
+
+			<view class="index_choose_gender_btn" @tap="startDecryptClickFn">
+				<image src="/static/image/start.png" mode=""></image>
+			</view>
+		</view>
+
+	</view>
+</template>
+
+<script setup>
+	import {
+		onMounted,
+		ref
+	} from 'vue'
+
+	var app = getApp()
+
+	const animateStart = ref(false)
+	const genderVal = ref('female')
+
+	const kapaiList = ref([])
+	onMounted(() => {
+		kapaiList.value = uni.getStorageSync('kapai_list')
+	})
+
+	const startDecryptClickFn = () => {
+		const kapaiNameList = kapaiList.value.map(item => item.name).join(',')
+		const data = {
+			list: kapaiNameList,
+			gender: genderVal.value
+		}
+		uni.navigateTo({
+			url: `/pages/index/details?orderId=1`
+		})
+		// app.post('', data, function(res) {
+		// 	uni.navigateTo({
+		// 		url: `/pages/index/details?orderId=${res.data.oid}`
+		// 	})
+		// })
+	}
+</script>
+
+<style lang="scss" scoped>
+	image {
+		width: 100%;
+		height: 100%;
+	}
+
+	.index_contain {
+		padding-top: 80rpx;
+		min-height: 100vh;
+		background: #FBE1D8 url(/static/image/bg.png) no-repeat top left / contain;
+	}
+
+	.index_contain_title {
+		margin: 0 auto;
+		width: 628rpx;
+		height: 44rpx;
+	}
+
+	.index_kapai_choose {
+		position: relative;
+		width: 700rpx;
+		height: 716rpx;
+		margin: 60rpx auto 0;
+		background: url(/static/image/diwen.png) no-repeat;
+		background-size: 100% 100%;
+
+		.index_kapai_choose_type_image {
+			width: 150rpx;
+			height: 260rpx;
+			background: #F8D1B8;
+			border: 1rpx solid #EDC7A9;
+			border-radius: 10rpx;
+		}
+
+		.index_kapai_choose_type0 {
+			position: absolute;
+			left: 275rpx;
+			top: 50rpx;
+			// width: 230rpx;
+			// transform: translateX(-50%);
+		}
+
+		.index_kapai_choose_type1 {
+			position: absolute;
+			left: 70rpx;
+			top: 320rpx;
+			// width: 260rpx;
+		}
+
+		.index_kapai_choose_type2 {
+			position: absolute;
+			left: 490rpx;
+			top: 320rpx;
+		}
+
+		.index_kapai_test {
+			position: absolute;
+			left: 220rpx;
+			top: 320rpx;
+			width: 260rpx;
+		}
+
+		.index_kapai_test1 {
+			position: absolute;
+			left: 20rpx;
+			top: 590rpx;
+			width: 260rpx;
+		}
+
+		.index_kapai_test2 {
+			position: absolute;
+			left: 410rpx;
+			top: 590rpx;
+			width: 300rpx;
+		}
+	}
+
+	.index_choose_btn {
+		border: 1rpx solid #D66567;
+	}
+
+	.index_choose_active_btn {
+		background: #D66567;
+	}
+
+	.index_choose_gender {
+		position: relative;
+		padding: 30rpx 30rpx 90rpx;
+		border-radius: 20rpx;
+
+		.index_choose_gender_btn {
+			width: 535rpx;
+			height: 103rpx;
+			position: absolute;
+			left: 50%;
+			bottom: -40rpx;
+			transform: translateX(-50%);
+		}
+	}
+</style>

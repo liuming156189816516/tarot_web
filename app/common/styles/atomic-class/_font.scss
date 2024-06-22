@@ -1,0 +1,61 @@
+// 字体大小(大于或等于20的都为rpx单位字体)
+@for $i from 9 to 20 {
+	.yx-fsize-#{$i} {
+		font-size: $i + px;
+	}
+}
+@for $i from 20 through 60 {
+	.yx-fsize-#{$i} {
+		font-size: $i + rpx;
+	}
+}
+
+// 字重
+.yx-fw-500 { font-weight: 500; }
+.yx-fw-bold { font-weight: bold; }
+.yx-f-italic { font-style: italic; }
+
+// 文字颜色
+.yx-text-primary { color: var(--yxPrimaryColor); }
+.yx-text-white { color: #fff; }
+.yx-text-black { color: #333; }
+.yx-text-666 { color: #666; }
+.yx-text-999 { color: #999; }
+.yx-text-grey { color: var(--yxGreyColor); }
+.yx-text-progress { color: var(--yxProcessColor); }
+.yx-text-success { color: var(--yxSuccessColor); }
+.yx-text-error { color: var(--yxErrorColor); }
+
+// 文字溢出
+@for $i from 1 through 5 {
+	.yx-textoverflow-#{$i} {
+		/* #ifdef APP-NVUE */
+		// nvue下，可以直接使用lines属性，这是weex特有样式
+		lines: $i;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		flex: 1;
+		/* #endif */
+
+		/* #ifndef APP-NVUE */
+		// vue下，单行和多行显示省略号需要单独处理
+		@if $i == '1' {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		} @else {
+			display: -webkit-box!important;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			word-break: break-all;
+			-webkit-line-clamp: $i;
+			-webkit-box-orient: vertical!important;
+		}
+		/* #endif */
+	}
+}
+
+// 文字对齐方式
+.yx-text-left { text-align: left; }
+.yx-text-center { text-align: center; }
+.yx-text-right { text-align: right; }

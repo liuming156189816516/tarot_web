@@ -1,0 +1,4 @@
+/*! 
+ Build based on gin-vue-admin 
+ Time : 1718987800000 */
+.search-component[data-v-6a9e151a]{margin-right:1.25rem;display:inline-flex;gap:1.25rem;overflow:hidden;text-align:center}.search-component div[data-v-6a9e151a]{cursor:pointer}.search-component .el-input__inner[data-v-6a9e151a]{border-bottom-width:1px;border-style:solid;--tw-border-opacity: 1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.search-component .el-dropdown-link[data-v-6a9e151a]{cursor:pointer}.reload[data-v-6a9e151a]{font-size:18px}.reloading[data-v-6a9e151a]{animation:turn-6a9e151a .5s linear infinite}@keyframes turn-6a9e151a{0%{transform:rotate(0)}25%{transform:rotate(90deg)}50%{transform:rotate(180deg)}75%{transform:rotate(270deg)}to{transform:rotate(360deg)}}
