@@ -3,9 +3,9 @@
         <div class="group_main">
             <el-form :inline="true">
                 <el-form-item>
-                    <el-button type="danger" :disabled="checkIdArry.length==0" @click="delFileBtn(0,1)">批量删除</el-button>
-                    <el-button type="primary" @click="createDatabtn(0,1)">WS数据入库</el-button>
-                    <el-input class="cus_input_18" style="margin: 0 10px;" v-model="dataParams.task_name" clearable placeholder="输入文件名称"/>
+                    <!-- <el-button type="danger" :disabled="checkIdArry.length==0" @click="delFileBtn(0,1)">批量删除</el-button> -->
+                    <!-- <el-button type="primary" @click="createDatabtn(0,1)">WS数据入库</el-button> -->
+                    <el-input class="cus_input_18" style="margin: 0 10px;" v-model="dataParams.task_name" clearable placeholder="输入订单号"/>
                     <el-button type="primary" icon="Search" @click="getDatalist(1)">查询</el-button>
                 </el-form-item>
             </el-form>
@@ -14,36 +14,35 @@
                 <div>已选 {{ checkIdArry.length }} 项</div>
             </div>
             <div>
-                <el-table :data="dataList" :summary-method="getSummaries" show-summary ref="dataTable" border :height="tableHeight" v-loading="loading" element-loading-background="rgba(122, 122, 122, .1)" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
+                <!-- :summary-method="getSummaries" show-summary -->
+                <el-table :data="dataList" ref="dataTable" border :height="tableHeight" v-loading="loading" element-loading-background="rgba(122, 122, 122, .1)" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
                     <el-table-column type="selection" width="55" />
-                    <el-table-column prop="name" label="数据名称" minWidth="140" />
-                    <el-table-column prop="invalidNum" label="无效数据" minWidth="100" />
-                    <el-table-column prop="upNum" label="上传数据" minWidth="100" />
-                    <!-- <el-table-column prop="sourceRepeatNum" label="源重复数据" minWidth="100" /> -->
-                    <el-table-column prop="repeatNum" label="账号内重复" minWidth="100" />
-                    <el-table-column prop="intoNum" label="入库数量" minWidth="100" />
-                    <el-table-column prop="residueNum" label="剩余数量" minWidth="100" />
-                    <el-table-column prop="useStatus" label="数据状态" minWidth="100">
+                    <el-table-column prop="order_id" label="订单号" minWidth="140" />
+                    <el-table-column prop="email" label="支付邮箱" minWidth="140" />
+                    <el-table-column prop="source" label="来源" minWidth="100" />
+                    <el-table-column prop="status" label="任务状态" minWidth="100">
+                        <!-- <template #header>
+                            <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command,1)">
+                                <span style="color:#909399" :class="[status?'dropdown_title':'']">任务状态
+                                    <i class="el-icon-arrow-down el-icon--right" />
+                                </span>
+                                <template #dropdown>
+                                    <el-dropdown-menu>
+                                        <el-dropdown-item :class="{'dropdown_selected':idx==status}" v-for="(item,idx) in taskOption" :key="idx" :command="idx">{{ item==''?'全部':item }}</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
+                        </template> -->
                         <template #default="scope">
-                            <el-tag :type="scope.row.useStatus==1?'success':'warning'"> {{ dataOption[scope.row.useStatus] }}</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="upStatus" label="任务状态" minWidth="100">
-                        <template  #default="scope">
-                            <el-tag :type="scope.row.up_status==1?'warning':scope.row.up_status==2?'success':'danger'"> {{ taskOption[scope.row.upStatus] }}</el-tag>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="useStatus" label="评价" minWidth="140">
-                        <template #default="scope">
-                            <el-rate @click.stop v-model="scope.row.evaluate" size="large" :max="5" @change="setGarde($event,scope.row)" />
+                            <el-tag :type="scope.row.status==1?'info':scope.row.status==2?'success':'danger'" size="small"> {{ taskOption[scope.row.status] }}</el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column label="创建时间" width="160" >
                         <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
                     </el-table-column>
-                    <el-table-column label="操作" width="300">
+                    <el-table-column label="操作" width="140">
                         <template #default="scope">
-                            <el-popover placement="left" :width="200" trigger="click">
+                            <!-- <el-popover placement="left" :width="200" trigger="click">
                                 <span>剩余数据明细</span>
                                 <div style="display: flex;justify-content: flex-end;">
                                     合计 {{remaParams.total}} 条
@@ -63,11 +62,9 @@
                                 <template #reference>
                                     <el-button :disabled="checkIdArry.length>0" type="primary" @click.stop="showLeaveNum(scope.row,1)" size="small" plain>剩余数量</el-button>
                                 </template>
-                            </el-popover>
-                            <!-- <el-button :disabled="checkIdArry.length > 0" type="success" @click.stop="createDatabtn(scope.row,2)" size="small" plain>补充</el-button> -->
-                            <el-button :disabled="checkIdArry.length>0" type="primary" @click.stop="downloadRecord(scope.row)" size="small" plain>下载记录</el-button>
-                            <!-- <el-button :disabled="checkIdArry.length > 0" type="danger" style="margin-left:10px;" @click.stop="delFileBtn(scope.row, 2)" plain>删除</el-button> -->
-                            <el-button :disabled="checkIdArry.length>0" size="small" :border="false" style="padding: 0;" @click.stop>
+                            </el-popover> -->
+                            <el-button :disabled="checkIdArry.length>0" type="primary" @click.stop="downloadRecord(scope.row)" size="small" plain>更新订单状态</el-button>
+                            <!-- <el-button :disabled="checkIdArry.length>0" size="small" :border="false" style="padding: 0;" @click.stop>
                                 <el-dropdown @command="(command)=>{handleCommand(scope.row,command)}">
                                     <el-button type="primary" size="small">
                                         更多<el-icon class="el-icon--right"><arrow-down /></el-icon>
@@ -80,7 +77,7 @@
                                         </el-dropdown-menu>
                                     </template>
                                 </el-dropdown>
-                            </el-button>
+                            </el-button> -->
                         </template>
                     </el-table-column>
                 </el-table>
@@ -163,7 +160,8 @@
     import { successTips} from '@/core/global'
     import { formatDate } from '@/utils/format'
     import { FormInstance, FormRules} from 'element-plus'
-    import { getDataList,createDataPack,upload,deleteDataPackByIds,getResidueNum,downloadList,setDataPackUseStatus,setDataPackEvaluate } from '@/api/data_list'
+     import { getTarotOrderList } from '@/api/tarotOrder'
+    // import { getDataList,createDataPack,upload,deleteDataPackByIds,getResidueNum,downloadList,setDataPackUseStatus,setDataPackEvaluate } from '@/api/data_list'
     interface dataStruct {
         ID:number,
         name: string
@@ -176,6 +174,7 @@
     let dataList = ref([])
     let recordList = ref([])
     let timer = ref(null)
+    let status = ref(null)
     let lazyEle = ref(null)
     let dataTable = ref()
     let uploadRef = ref("")
@@ -192,8 +191,7 @@
     const sunmmary = ref([5,6])
     const dataRef = ref<FormInstance>()
     const { VITE_BASE_API} = import.meta.env;
-    const taskOption = ref(["","上传中...","已完成","上传失败"])
-    const dataOption = ref(["","未使用","已使用"])
+    const taskOption = ref(["","未支付","支付成功","支付失败"])
     const pageOption = ref([10, 20, 50, 100, 200, 500, 1000])
     const moreOption = ref(["导出全部数据","导出剩余数据","下载数据","设置为已使用"])
     const delParams = reactive({
@@ -259,14 +257,24 @@
     }
     const getDatalist = async (num?:number) => {
         dataParams.page=num?num:dataParams.page;
+        let param = {
+            page:dataParams.page,
+            status:status.value,
+            pageSize:dataParams.limit,
+            name:dataParams.task_name
+        }
         loading.value=true;
-        const res = await getDataList({page:dataParams.page,pageSize:dataParams.limit,name:dataParams.task_name})
+        const {data:{list,total}} = await getTarotOrderList(param);
         loading.value=false;
-        const {data:{list,total}} = res
         dataList.value = list||[];
         dataParams.total = total;
     }
     getDatalist();
+    const handleNewwork = async (row:any,idx:Number) => {
+        console.log(row);
+        // status.value = 
+        getDatalist();
+    }
     const getSummaries = (param?:any) => {
         const { columns, data } = param;
         const sums = [];
@@ -516,6 +524,7 @@
             color: #409eff;
         }
     }
-</style>
-<style lang="scss">
+    .dropdown_title{
+        color: #409eff;
+    }
 </style>
