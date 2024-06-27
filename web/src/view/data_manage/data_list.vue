@@ -5,7 +5,7 @@
                 <el-form-item>
                     <!-- <el-button type="danger" :disabled="checkIdArry.length==0" @click="delFileBtn(0,1)">批量删除</el-button> -->
                     <!-- <el-button type="primary" @click="createDatabtn(0,1)">WS数据入库</el-button> -->
-                    <el-input class="cus_input_18" style="margin: 0 10px;" v-model="dataParams.task_name" clearable placeholder="输入订单号"/>
+                    <el-input class="cus_input_18" style="margin: 0 10px;" v-model="dataParams.task_name" clearable placeholder="输入邮箱地址"/>
                     <el-button type="primary" icon="Search" @click="getDatalist(1)">查询</el-button>
                 </el-form-item>
             </el-form>
@@ -17,9 +17,13 @@
                 <!-- :summary-method="getSummaries" show-summary -->
                 <el-table :data="dataList" ref="dataTable" border :height="tableHeight" v-loading="loading" element-loading-background="rgba(122, 122, 122, .1)" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
                     <el-table-column type="selection" width="55" />
-                    <el-table-column prop="order_id" label="订单号" minWidth="140" />
+                    <el-table-column prop="pay_id" label="订单号" minWidth="140" />
                     <el-table-column prop="email" label="支付邮箱" minWidth="140" />
-                    <el-table-column prop="source" label="来源" minWidth="100" />
+                    <el-table-column prop="source" label="来源" minWidth="100">
+                        <template #default="scope">
+                            <el-tag :type="scope.row.status==1?'info':scope.row.status==2?'success':'danger'" size="small"> {{ taskOption[scope.row.status] }}</el-tag>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="status" label="任务状态" minWidth="100">
                         <!-- <template #header>
                             <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command,1)">
@@ -261,7 +265,7 @@
             page:dataParams.page,
             status:status.value,
             pageSize:dataParams.limit,
-            name:dataParams.task_name
+            pay_email:dataParams.task_name
         }
         loading.value=true;
         const {data:{list,total}} = await getTarotOrderList(param);
