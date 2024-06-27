@@ -21,7 +21,7 @@
                     <el-table-column prop="email" label="支付邮箱" minWidth="140" />
                     <el-table-column prop="source" label="来源" minWidth="100">
                         <template #default="scope">
-                            <el-tag :type="scope.row.status==1?'info':scope.row.status==2?'success':'danger'" size="small"> {{ taskOption[scope.row.status] }}</el-tag>
+                            {{ scope.row.source || "-" }}
                         </template>
                     </el-table-column>
                     <el-table-column prop="status" label="任务状态" minWidth="100">
