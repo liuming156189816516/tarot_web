@@ -51,27 +51,19 @@
 
 		<view class="index_choose_gender yx-bg-white yx-m-x-60">
 			<view class="yx-flex-row-spaceB-center">
-				<view class="yx-fsize-30">
-					Your gender
-				</view>
+				<view class="yx-fsize-30">Your gender</view>
 				<view class="yx-flex-row-start-center yx-ml-60">
-					<view class="yx-flex-row-start-center">
-						<view class="index_choose_btn yx-w-30 yx-h-30 yx-rounded-c"
-							:class="genderVal == 'female' ? 'index_choose_active_btn':''" @tap="genderVal = 'female'">
-
-						</view>
+					<view class="yx-flex-row-start-center" v-for="(item,idx) in ganderOption" :key="idx" @tap="changeGander(idx)" v-show="idx!=0">
+						<view class="index_choose_btn yx-w-30 yx-h-30 yx-rounded-c" :class="genderVal == idx ? 'index_choose_active_btn':''" />
 						<text class="yx-text-666 yx-ml-10">female</text>
 					</view>
-					<view class="yx-flex-row-start-center yx-ml-60">
-						<view class="index_choose_btn  yx-w-30 yx-h-30 yx-rounded-c"
-							:class="genderVal == 'mate' ? 'index_choose_active_btn':''" @tap="genderVal = 'mate'">
-
-						</view>
+					<!-- <view class="yx-flex-row-start-center yx-ml-60">
+						<view class="index_choose_btn  yx-w-30 yx-h-30 yx-rounded-c" :class="genderVal == 'mate' ? 'index_choose_active_btn':''" @tap="genderVal = 'mate'" />
 						<text class="yx-text-666 yx-ml-10">mate</text>
-					</view>
+					</view> -->
 				</view>
 			</view>
-
+			
 			<view class="index_choose_gender_btn" @tap="startDecryptClickFn">
 				<image src="/static/image/start.png" mode=""></image>
 			</view>
@@ -81,30 +73,28 @@
 </template>
 
 <script setup>
-	import {
-		onMounted,
-		ref
-	} from 'vue'
-
-	var app = getApp()
-
-	const animateStart = ref(false)
-	const genderVal = ref('female')
-
+	import { onMounted, ref } from 'vue'
+	const app = getApp()
+	const genderVal = ref(1)
 	const kapaiList = ref([])
+	const animateStart = ref(false)
+	const ganderOption = ref(['','mate','female'])
 	onMounted(() => {
 		kapaiList.value = uni.getStorageSync('kapai_list')
 	})
-
+	const changeGander = (val) => {
+		genderVal.value = val;
+	}
 	const startDecryptClickFn = () => {
 		const kapaiNameList = kapaiList.value.map(item => item.name).join(',')
-		const data = {
-			list: kapaiNameList,
-			gender: genderVal.value
-		}
-		uni.navigateTo({
-			url: `/pages/index/details?orderId=1`
-		})
+		// const data = {
+		// 	list: kapaiNameList,
+		// 	gender: genderVal.value
+		// }
+		uni.navigateTo({url: `/pages/index/details?gender=${genderVal.value}`})
+		// uni.navigateTo({
+		// 	url: `/pages/index/details?orderId=1`
+		// })
 		// app.post('', data, function(res) {
 		// 	uni.navigateTo({
 		// 		url: `/pages/index/details?orderId=${res.data.oid}`
@@ -211,5 +201,8 @@
 			bottom: -40rpx;
 			transform: translateX(-50%);
 		}
+	}
+	.yx-flex-row-start-center:nth-child(3){
+		margin-left: 60rpx;
 	}
 </style>

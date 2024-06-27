@@ -15,13 +15,9 @@ const httpInterceptor = {
 			return
 		}
 		
-		
-		console.log(options,'option');
 		if(options.url.indexOf('https://') != -1){
 			return
 		}
-
-
 		// request 触发前拼接 url 
 		options.url = siteinfo.siteroot +'/'+ options.url
 		// 2. 请求超时, 默认 60s

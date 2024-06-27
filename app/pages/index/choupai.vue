@@ -1,20 +1,16 @@
 <template>
 	<view class="index_contain yx-pb-60">
 		<view class="index_contain_title">
-			<image class="" src="/static/image/title.png" mode=""></image>
+			<image src="/static/image/title.png" mode=""></image>
 		</view>
 
 		<view class="index_kapai_list">
-			<view class="index_kapai_list_type"
-				:class="[`index_kapai_list_type-${item}`, chooseIndex.indexOf(item)!= -1 ?`index_kapai_sheng`:'']"
-				:style="`left: ${(item * 4) - 2}%`" v-for="item in 20" v-show="timeNumber > item" @tap="yxClickNumberFn(item)">
+			<view :class="['index_kapai_list_type',`index_kapai_list_type-${item}`, chooseIndex.indexOf(item)!= -1 ?`index_kapai_sheng`:'']"
+				:style="`left: ${(item * 4) - 2}%`" v-for="item in 20" v-show="timeNumber" @tap="yxClickNumberFn(item)">
 				<image src="/static/image/kapai.png" mode="scaleToFill"></image>
 			</view>
 		</view>
-
-
-
-
+		
 		<view class="index_kapai_choose">
 			<view class="index_kapai_choosed_type"
 				:class="[clickNumber > index ? `index_kapai_choosed_active${index+1}` : '']" v-for="(item,index) in chooseList"
@@ -28,23 +24,16 @@
 				<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/2_0.jpg" mode=""></image>
 			</view> -->
 
-
 			<view class="index_kapai_choose_type">
-				<view class="index_kapai_choose_type_image">
-
-				</view>
+				<view class="index_kapai_choose_type_image"></view>
 			</view>
 			<view class="index_kapai_choose_type1">
-				<view class="index_kapai_choose_type_image">
-
-				</view>
+				<view class="index_kapai_choose_type_image"></view>
 			</view>
 
 
 			<view class="index_kapai_choose_type2">
-				<view class="index_kapai_choose_type_image">
-
-				</view>
+				<view class="index_kapai_choose_type_image"></view>
 			</view>
 			<view class="index_kapai_test yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
 				<view class="">
@@ -70,9 +59,7 @@
 					we get back together
 				</view>
 			</view>
-
 			<!-- <image src="/static/" mode=""></image> -->
-
 			<!-- <view class="index_kapai_choose_type yx-flex-col-center-center ">
 				<view class="index_kapai_choose_type_image kapai_1">
 
@@ -115,31 +102,21 @@
 					</view>
 				</view>
 			</view> -->
-
-
 		</view>
 	</view>
 </template>
 
 <script setup>
-	import {
-		ref,
-		onMounted,
-		Transition
-	} from 'vue'
-	import {
-		kapaiData
-	} from '../js/data.js'
-
-
+	import { ref, onMounted, Transition } from 'vue'
+	import { kapaiData } from '../js/data.js'
+	
+	const app = getApp()
 	const animateStart = ref(false)
-
-
 	const chooseList = ref([])
-
 	const timeNumber = ref(0)
 	const timer = ref(null)
 	onMounted(() => {
+		// getTarotList();
 		timer.value = setInterval(() => {
 			timeNumber.value += 1
 			if (timeNumber.value > 20) {
@@ -151,18 +128,20 @@
 
 		for (let i = 0; i < 3; i++) {
 			const randomInteger = Math.floor(Math.random() * 10)
-			chooseList.value = [
-				...chooseList.value,
-				kapaiData[randomInteger]
-			]
+			chooseList.value = [...chooseList.value,kapaiData[randomInteger]]
 		}
-
 		uni.setStorageSync('kapai_list', chooseList.value)
 	})
 
 	const clickNumber = ref(0)
 	const isLoading = ref(true)
 	const chooseIndex = ref([])
+	const getTarotList = (index) => {
+		app.get('tc/getTarotCardList', {}, function(res){
+			console.log(res);
+			// 处理支付
+		})
+	}
 	const yxClickNumberFn = (index) => {
 		if (isLoading.value) return
 		chooseIndex.value.push(index)
@@ -220,8 +199,6 @@
 		height: 260rpx;
 		z-index: 9;
 		opacity: 0;
-
-
 		@keyframes choosed_active1 {
 			0% {
 				left: 50%;
@@ -288,8 +265,6 @@
 		height: 260rpx;
 		z-index: 9;
 		opacity: 0;
-
-
 		@keyframes choosed_active3 {
 			0% {
 				left: 50%;
@@ -297,14 +272,12 @@
 				opacity: 1;
 				transform: translate(-50%, -1000rpx) scale(0.1);
 			}
-
 			75% {
 				left: 50%;
 				top: 50rpx;
 				opacity: 1;
 				transform: translate(-50%, -50%) scale(1.8);
 			}
-
 			100% {
 				left: 490rpx;
 				top: 320rpx;
@@ -312,7 +285,6 @@
 				opacity: 1;
 			}
 		}
-
 		animation:choosed_active3 2s 0.5s forwards;
 	}
 
@@ -321,12 +293,10 @@
 			0% {
 				transform: translateY(0);
 			}
-
 			100% {
 				transform: translateY(-500rpx)
 			}
 		}
-
 		animation: kapai_shangshen 0.7s forwards;
 	}
 
