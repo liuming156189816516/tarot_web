@@ -13,12 +13,24 @@
 				<view class="order_item">下单时间：2024-06-25 14:45:26</view>
 				<view class="order_item">支付方式：银行卡(0325)</view>
 			</div> -->
-			<button type="primary" plain="true" class="go_bank" @tap="$yx.route({url: '/pages/index/details?orderId=1'})">Re-order</button>
+			<button type="primary" plain="true" class="go_bank" @click="back_page">Re-order</button>
 		</view>
 	</view>
 </template>
 
-<script>
+<script setup>
+	import { ref } from 'vue';
+	import { onLoad } from '@dcloudio/uni-app';
+	let pay_id = ref("");
+	onLoad((options) => {
+		if(options.ID){
+			console.log(options.ID);
+			pay_id.value = options.ID;
+		}
+	})
+	const back_page = ()=>{
+		uni.navigateTo({url:`/pages/index/details?order_id=${pay_id.value}`})
+	}
 </script>
 
 <style lang="scss" scoped>

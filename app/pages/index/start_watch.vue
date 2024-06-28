@@ -1,14 +1,17 @@
 <template>
 	<view class="index_contain">
+		<view class="custom_head">
+			<image class="bank_icon" src="/static/image/you1.png" @tap="$yx.route({url:`/pages/index/choupai`})"></image>
+			<text class="title_desc">Draw card combinations to solve puzzles</text>
+		</view>
 		<view class="index_contain_title">
 			<image class="" src="/static/image/title1.png" mode=""></image>
 		</view>
 
 		<view class="index_kapai_choose">
-			<view class="" :class="`index_kapai_choose_type${index}`" v-for="(item,index) in kapaiList"
-				:key="`kapai_${index}`">
+			<view class="" :class="`index_kapai_choose_type${index}`" v-for="(item,index) in kapaiList" :key="`kapai_${index}`">
 				<view class="index_kapai_choose_type_image">
-					<image :src="item.path" mode=""></image>
+					<image :src="item.picture" mode=""></image>
 				</view>
 			</view>
 			<!-- 			<view class="index_kapai_choose_type1">
@@ -80,26 +83,16 @@
 	const animateStart = ref(false)
 	const ganderOption = ref(['','mate','female'])
 	onMounted(() => {
-		kapaiList.value = uni.getStorageSync('kapai_list')
+		let changeList = uni.getStorageSync('kapai_list').map(item=>{
+			return {...item,picture:'/static/kapai/'+item.picture}
+		})
+		kapaiList.value = changeList;
 	})
 	const changeGander = (val) => {
 		genderVal.value = val;
 	}
 	const startDecryptClickFn = () => {
-		const kapaiNameList = kapaiList.value.map(item => item.name).join(',')
-		// const data = {
-		// 	list: kapaiNameList,
-		// 	gender: genderVal.value
-		// }
 		uni.navigateTo({url: `/pages/index/details?gender=${genderVal.value}`})
-		// uni.navigateTo({
-		// 	url: `/pages/index/details?orderId=1`
-		// })
-		// app.post('', data, function(res) {
-		// 	uni.navigateTo({
-		// 		url: `/pages/index/details?orderId=${res.data.oid}`
-		// 	})
-		// })
 	}
 </script>
 
@@ -110,7 +103,6 @@
 	}
 
 	.index_contain {
-		padding-top: 80rpx;
 		min-height: 100vh;
 		background: #FBE1D8 url(/static/image/bg.png) no-repeat top left / contain;
 	}
@@ -119,6 +111,7 @@
 		margin: 0 auto;
 		width: 628rpx;
 		height: 44rpx;
+		margin-top: 30rpx;
 	}
 
 	.index_kapai_choose {

@@ -17,8 +17,17 @@
                 <!-- :summary-method="getSummaries" show-summary -->
                 <el-table :data="dataList" ref="dataTable" border :height="tableHeight" v-loading="loading" element-loading-background="rgba(122, 122, 122, .1)" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
                     <el-table-column type="selection" width="55" />
-                    <el-table-column prop="pay_id" label="订单号" minWidth="140" />
+                    <el-table-column prop="pay_id" label="订单号" minWidth="140">
+                        <template #default="scope">
+                            {{ scope.row.pay_id || "-" }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="email" label="支付邮箱" minWidth="140" />
+                    <el-table-column prop="amount" label="金额/$" minWidth="140">
+                        <template #default="scope">
+                            {{ scope.row.amount/100 || 0 }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="source" label="来源" minWidth="100">
                         <template #default="scope">
                             {{ scope.row.source || "-" }}
@@ -265,7 +274,7 @@
             page:dataParams.page,
             status:status.value,
             pageSize:dataParams.limit,
-            pay_email:dataParams.task_name
+            email:dataParams.task_name
         }
         loading.value=true;
         const {data:{list,total}} = await getTarotOrderList(param);

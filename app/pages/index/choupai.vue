@@ -1,20 +1,22 @@
 <template>
+	<view class="custom_head">
+		<image class="bank_icon" src="/static/image/you1.png" @tap="$yx.route({url:`/`})"></image>
+		<text class="title_desc">Draw cards to solve puzzles</text>
+	</view>
 	<view class="index_contain yx-pb-60">
 		<view class="index_contain_title">
 			<image src="/static/image/title.png" mode=""></image>
 		</view>
-
 		<view class="index_kapai_list">
-			<view :class="['index_kapai_list_type',`index_kapai_list_type-${item}`, chooseIndex.indexOf(item)!= -1 ?`index_kapai_sheng`:'']"
-				:style="`left: ${(item * 4) - 2}%`" v-for="item in 20" v-show="timeNumber" @tap="yxClickNumberFn(item)">
+			<!-- {{allCardList}} -->
+			<view :class="['index_kapai_list_type', chooseIndex.indexOf(item.card_id)!= -1 ?`index_kapai_sheng`:'']" :style="`left: ${(item.card_id * 4) - 2}%`" v-for="(item) in allCardList" @click="yxClickNumberFn(item.card_id)">
+				<!-- {{item}} -->
 				<image src="/static/image/kapai.png" mode="scaleToFill"></image>
 			</view>
 		</view>
 		
 		<view class="index_kapai_choose">
-			<view class="index_kapai_choosed_type"
-				:class="[clickNumber > index ? `index_kapai_choosed_active${index+1}` : '']" v-for="(item,index) in chooseList"
-				:key="`kapai-${index}`">
+			<view class="index_kapai_choosed_type" :class="[clickNumber > index ? `index_kapai_choosed_active${index+1}` : '']" v-for="(item,index) in chooseList" :key="`kapai-${index}`">
 				<image :src="item.path" mode=""></image>
 			</view>
 			<!-- 			<view class="index_kapai_choosed_type" :class="[clickNumber > 1 ? 'index_kapai_choosed_active2' : '']">
@@ -115,44 +117,37 @@
 	const chooseList = ref([])
 	const timeNumber = ref(0)
 	const timer = ref(null)
+	const allCardList = ref([])
+	const clickNumber = ref(0)
+	const isLoading = ref(false)
+	const chooseIndex = ref([])
+	
 	onMounted(() => {
-		// getTarotList();
-		timer.value = setInterval(() => {
-			timeNumber.value += 1
-			if (timeNumber.value > 20) {
-				clearInterval(timer.value)
-				timer.value = null
-				isLoading.value = false
-			}
-		}, 80)
-
+		getTarotList();
 		for (let i = 0; i < 3; i++) {
 			const randomInteger = Math.floor(Math.random() * 10)
 			chooseList.value = [...chooseList.value,kapaiData[randomInteger]]
 		}
-		uni.setStorageSync('kapai_list', chooseList.value)
 	})
 
-	const clickNumber = ref(0)
-	const isLoading = ref(true)
-	const chooseIndex = ref([])
-	const getTarotList = (index) => {
+	const getTarotList = () => {
 		app.get('tc/getTarotCardList', {}, function(res){
-			console.log(res);
-			// 处理支付
+			allCardList.value = res.data||[];
 		})
 	}
-	const yxClickNumberFn = (index) => {
-		if (isLoading.value) return
-		chooseIndex.value.push(index)
-		isLoading.value = true
-		clickNumber.value += 1
+	
+	const yxClickNumberFn = (id) => {
+		if (isLoading.value) return;
+		chooseIndex.value.push(id);
+		isLoading.value = true;
+		clickNumber.value += 1;
 		setTimeout(() => {
-			isLoading.value = false
+			isLoading.value = false;
 			if (clickNumber.value == 3) {
-				uni.redirectTo({
-					url: '/pages/index/start_watch'
-				})
+				isLoading.value = true;
+				const selectCard = allCardList.value.filter(item => chooseIndex.value.includes(item.card_id));
+				uni.setStorageSync('kapai_list',selectCard)
+				uni.redirectTo({url: `/pages/index/start_watch?id=${String(chooseIndex.value)}`})
 			}
 		}, 3000)
 	}
@@ -294,7 +289,7 @@
 				transform: translateY(0);
 			}
 			100% {
-				transform: translateY(-500rpx)
+				transform: translateY(-600rpx)
 			}
 		}
 		animation: kapai_shangshen 0.7s forwards;

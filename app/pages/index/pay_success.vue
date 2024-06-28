@@ -6,23 +6,29 @@
 		</view>
 		<view class="desc_tips">payment successful!</view>
 		<view class="order_warp">
-			<view class="order_top"></view>
-			<div class="order_detail">
+			<!-- <view class="order_top"></view> -->
+			<!-- <div class="order_detail">
 				<h3 class="order_title">order details</h3>
 				<view class="order_item">order number：1472583695555</view>
 				<view class="order_item">order time：2024-06-25 14:45:26</view>
 				<view class="order_item">payment method：银行卡(0325)</view>
-			</div>
-			<button class="go_bank" type="primary" plain="true" @tap="handleBtn">View Results</button>
+			</div> -->
+			<button class="go_bank" type="primary" plain="true" @click="back_page">View Results</button>
 		</view>
 	</view>
 </template>
 
 <script setup>
-	const handleBtn = () => {
-		const pages = getCurrentPages()
-		const currentPage = pages[pages.length-1]
-		$yx.route({url:`/pages/index/details?order_id=${currentPage.options.ID}`})
+	import { ref } from 'vue';
+	import { onLoad } from '@dcloudio/uni-app';
+	let pay_id = ref("");
+	onLoad((options) => {
+		if(options.ID){
+			pay_id.value = options.ID;
+		}
+	})
+	const back_page = ()=>{
+		uni.navigateTo({url:`/pages/index/details?order_id=${pay_id.value}`})
 	}
 </script>
 
