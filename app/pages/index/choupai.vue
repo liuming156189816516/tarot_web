@@ -9,7 +9,7 @@
 		</view>
 		<view class="index_kapai_list">
 			<!-- {{allCardList}} -->
-			<view :class="['index_kapai_list_type', chooseIndex.indexOf(item.card_id)!= -1 ?`index_kapai_sheng`:'']" :style="`left: ${(item.card_id * 4) - 2}%`" v-for="(item) in allCardList" @click="yxClickNumberFn(item.card_id)">
+			<view :class="['index_kapai_list_type', chooseIndex.indexOf(item.card_id)!= -1 ?`index_kapai_sheng`:'']" :style="`left: ${((idx+1) * 4) - 2}%`" v-for="(item,idx) in allCardList" @click="yxClickNumberFn(item.card_id)">
 				<!-- {{item}} -->
 				<image src="/static/image/kapai.png" mode="scaleToFill"></image>
 			</view>
