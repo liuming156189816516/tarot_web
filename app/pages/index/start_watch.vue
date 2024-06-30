@@ -58,7 +58,7 @@
 				<view class="yx-flex-row-start-center yx-ml-60">
 					<view class="yx-flex-row-start-center" v-for="(item,idx) in ganderOption" :key="idx" @tap="changeGander(idx)" v-show="idx!=0">
 						<view class="index_choose_btn yx-w-30 yx-h-30 yx-rounded-c" :class="genderVal == idx ? 'index_choose_active_btn':''" />
-						<text class="yx-text-666 yx-ml-10">female</text>
+						<text class="yx-text-666 yx-ml-10">{{item}}</text>
 					</view>
 					<!-- <view class="yx-flex-row-start-center yx-ml-60">
 						<view class="index_choose_btn  yx-w-30 yx-h-30 yx-rounded-c" :class="genderVal == 'mate' ? 'index_choose_active_btn':''" @tap="genderVal = 'mate'" />
@@ -83,10 +83,7 @@
 	const animateStart = ref(false)
 	const ganderOption = ref(['','mate','female'])
 	onMounted(() => {
-		let changeList = uni.getStorageSync('kapai_list').map(item=>{
-			return {...item,picture:'/static/kapai/'+item.picture}
-		})
-		kapaiList.value = changeList;
+		kapaiList.value = uni.getStorageSync('kapai_list');
 	})
 	const changeGander = (val) => {
 		genderVal.value = val;

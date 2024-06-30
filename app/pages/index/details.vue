@@ -118,7 +118,7 @@
 			check_pay_status();
 		}
 		let changeList = uni.getStorageSync('kapai_list').map(item=>{
-			return {...item,isPay:false,comtent:"",picture:'/static/kapai/'+item.picture}
+			return {...item,isPay:false,comtent:""}
 		})
 		kapaiList.value = changeList
 	})

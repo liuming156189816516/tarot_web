@@ -9,7 +9,7 @@
 		</view>
 		<view class="index_kapai_list">
 			<!-- {{allCardList}} -->
-			<view :class="['index_kapai_list_type', chooseIndex.indexOf(item.card_id)!= -1 ?`index_kapai_sheng`:'']" :style="`left: ${(item.card_id * 4) - 2}%`" v-for="(item) in allCardList" @click="yxClickNumberFn(item.card_id)">
+			<view :class="['index_kapai_list_type', chooseIndex.indexOf(item.card_id)!= -1 ?`index_kapai_sheng`:'']" :style="`left: ${(item.card_id * 4) - 2}%`" v-for="(item) in allCardList" @click="yxClickNumberFn(item)">
 				<!-- {{item}} -->
 				<image src="/static/image/kapai.png" mode="scaleToFill"></image>
 			</view>
@@ -17,7 +17,7 @@
 		
 		<view class="index_kapai_choose">
 			<view class="index_kapai_choosed_type" :class="[clickNumber > index ? `index_kapai_choosed_active${index+1}` : '']" v-for="(item,index) in chooseList" :key="`kapai-${index}`">
-				<image :src="item.path" mode=""></image>
+				<image :src="item.picture" mode=""></image>
 			</view>
 			<!-- 			<view class="index_kapai_choosed_type" :class="[clickNumber > 1 ? 'index_kapai_choosed_active2' : '']">
 				<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/5_1.jpg" mode=""></image>
@@ -110,7 +110,7 @@
 
 <script setup>
 	import { ref, onMounted, Transition } from 'vue'
-	import { kapaiData } from '../js/data.js'
+	import { onLoad } from '@dcloudio/uni-app';
 	
 	const app = getApp()
 	const animateStart = ref(false)
@@ -121,32 +121,27 @@
 	const clickNumber = ref(0)
 	const isLoading = ref(false)
 	const chooseIndex = ref([])
-	
-	onMounted(() => {
+	onLoad(async () => {
 		getTarotList();
-		for (let i = 0; i < 3; i++) {
-			const randomInteger = Math.floor(Math.random() * 10)
-			chooseList.value = [...chooseList.value,kapaiData[randomInteger]]
-		}
 	})
-
 	const getTarotList = () => {
 		app.get('tc/getTarotCardList', {}, function(res){
 			allCardList.value = res.data||[];
 		})
 	}
 	
-	const yxClickNumberFn = (id) => {
+	const yxClickNumberFn = (row) => {
 		if (isLoading.value) return;
-		chooseIndex.value.push(id);
 		isLoading.value = true;
 		clickNumber.value += 1;
+		chooseIndex.value.push(row.card_id);
+		let obj = {...row,picture:'/static/kapai/'+row.picture}
+		chooseList.value = [...chooseList.value,obj];
 		setTimeout(() => {
 			isLoading.value = false;
 			if (clickNumber.value == 3) {
 				isLoading.value = true;
-				const selectCard = allCardList.value.filter(item => chooseIndex.value.includes(item.card_id));
-				uni.setStorageSync('kapai_list',selectCard)
+				uni.setStorageSync('kapai_list',chooseList.value)
 				uni.redirectTo({url: `/pages/index/start_watch?id=${String(chooseIndex.value)}`})
 			}
 		}, 3000)
