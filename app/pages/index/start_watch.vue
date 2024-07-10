@@ -2,10 +2,10 @@
 	<view class="index_contain">
 		<view class="custom_head">
 			<image class="bank_icon" src="/static/image/you1.png" @tap="$yx.route({url:`/pages/index/choupai`})"></image>
-			<text class="title_desc">Draw card combinations to solve puzzles</text>
+			<text class="title_desc">{{$tm('h_012')}}</text>
 		</view>
 		<view class="index_contain_title">
-			<image class="" src="/static/image/title1.png" mode=""></image>
+			<image :src="`/static/image/${langIdx}_draw.png`" mode=""></image>
 		</view>
 
 		<view class="index_kapai_choose">
@@ -14,39 +14,28 @@
 					<image :src="item.picture" mode=""></image>
 				</view>
 			</view>
-			<!-- 			<view class="index_kapai_choose_type1">
-				<view class="index_kapai_choose_type_image">
-					<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/5_1.jpg" mode=""></image>
-				</view>
-			</view>
-			<view class="index_kapai_choose_type2">
-				<view class="index_kapai_choose_type_image">
-					<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/2_0.jpg" mode=""></image>
-				</view>
-			</view> -->
-
 			<view class="index_kapai_test yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
 				<view class="">
-					Is he/she the right
+					{{$tm('h_007')}}
 				</view>
 				<view class="">
-					person for me
+					{{$tm('h_008')}}
 				</view>
 			</view>
 			<view class="index_kapai_test1 yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
 				<view class="">
-					Is it possible for us
+					{{$tm('h_009')}}
 				</view>
 				<view class="">
-					to get back together
+					{{$tm('h_010')}}
 				</view>
 			</view>
 			<view class="index_kapai_test2  yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
 				<view class="">
-					What will happen when
+					{{$tm('h_011')}}
 				</view>
 				<view class="">
-					we get back together
+					{{$tm('h_012')}}
 				</view>
 			</view>
 		</view>
@@ -54,7 +43,7 @@
 
 		<view class="index_choose_gender yx-bg-white yx-m-x-60">
 			<view class="yx-flex-row-spaceB-center">
-				<view class="yx-fsize-30">Your gender</view>
+				<view class="yx-fsize-30">{{$tm('h_013')}}</view>
 				<view class="yx-flex-row-start-center yx-ml-60">
 					<view class="yx-flex-row-start-center" v-for="(item,idx) in ganderOption" :key="idx" @tap="changeGander(idx)" v-show="idx!=0">
 						<view class="index_choose_btn yx-w-30 yx-h-30 yx-rounded-c" :class="genderVal == idx ? 'index_choose_active_btn':''" />
@@ -68,7 +57,7 @@
 			</view>
 			
 			<view class="index_choose_gender_btn" @tap="startDecryptClickFn">
-				<image src="/static/image/start.png" mode=""></image>
+				<image :src="`/static/image/${langIdx}_dec.png`" mode=""></image>
 			</view>
 		</view>
 
@@ -76,14 +65,20 @@
 </template>
 
 <script setup>
-	import { onMounted, ref } from 'vue'
+	import { onMounted, ref, computed } from 'vue'
+	import { useI18n } from 'vue-i18n';
+	const { tm } = useI18n();
 	const app = getApp()
 	const genderVal = ref(1)
 	const kapaiList = ref([])
+	let langIdx = ref('en')
 	const animateStart = ref(false)
-	const ganderOption = ref(['','mate','female'])
+	const ganderOption = computed(() => {
+	    return ["",tm('h_014'),tm('h_015')];
+	});
 	onMounted(() => {
 		kapaiList.value = uni.getStorageSync('kapai_list');
+		langIdx.value = uni.getStorageSync("language")||'en';
 	})
 	const changeGander = (val) => {
 		genderVal.value = val;

@@ -1,10 +1,10 @@
 <template>
 	<view class="success_main">
-		<view class="head_title">payment result</view>
+		<view class="head_title">{{$tm('h_029')}}</view>
 		<view>
 			<img class="success_img" src="/static/image/fail_icon.png" alt="" srcset="" />
 		</view>
-		<view class="desc_tips">Payment failed！</view>
+		<view class="desc_tips">{{$tm('h_032')}}</view>
 		<view class="order_warp">
 			<!-- <view class="order_top"></view>
 			<div class="order_detail">

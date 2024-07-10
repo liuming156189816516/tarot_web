@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "jsrsasign": "^10.8.6"
+    "jsrsasign": "^10.8.6",
+    "vue-i18n": "^9.13.1"
   }
 }

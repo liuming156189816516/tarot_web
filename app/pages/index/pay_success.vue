@@ -1,10 +1,10 @@
 <template>
 	<view class="success_main">
-		<view class="head_title">payment result</view>
+		<view class="head_title">{{$tm('h_029')}}</view>
 		<view>
 			<img class="success_img" src="/static/image/success_icon.png" alt="" srcset="" />
 		</view>
-		<view class="desc_tips">payment successful!</view>
+		<view class="desc_tips">{{$tm('h_030')}}</view>
 		<view class="order_warp">
 			<!-- <view class="order_top"></view> -->
 			<!-- <div class="order_detail">
@@ -13,7 +13,7 @@
 				<view class="order_item">order time：2024-06-25 14:45:26</view>
 				<view class="order_item">payment method：银行卡(0325)</view>
 			</div> -->
-			<button class="go_bank" type="primary" plain="true" @click="back_page">View Results</button>
+			<button class="go_bank" type="primary" plain="true" @click="back_page">{{$tm('h_031')}}</button>
 		</view>
 	</view>
 </template>

@@ -2,7 +2,7 @@
 	<view class="game_main">
 		<view class="custom_head">
 			<image class="bank_icon" src="/static/image/you1.png" @tap="$yx.route({url:`/pages/index/choupai`})"></image>
-			<text class="title_desc">Pay to see results</text>
+			<text class="title_desc">{{$tm('h_017')}}</text>
 		</view>
 		<view class="detail_border">
 			<image src="/static/image/border.png" mode=""></image>
@@ -14,14 +14,14 @@
 				</view>
 				<view class="yx-flex-col-center-center yx-text-white yx-fsize-34 yx-fw-bold yx-mt-40">
 					<view class="">
-						The compllete analysis conttalns
+						{{$tm('h_018')}}
 					</view>
 					<view class="">
-						the following
+						{{$tm('h_019')}}
 					</view>
 				</view>
 				<view class="yx-text-white yx-fsize-34 yx-fw-bold yx-flex-row-center-center">
-					<text>Love index:</text>
+					<text>{{$tm('h_022')}}</text>
 					<view class="yx-flex-row-start-center">
 						<image class="yx-w-41 yx-h-37 yx-ml-12" src="/static/image/shi.png" mode="" v-for="item in loveIndex"></image>
 						<image class="yx-w-41 yx-h-37 yx-ml-12" src="/static/image/kon.png" mode="" v-for="item in (5-loveIndex)">
@@ -31,18 +31,18 @@
 				<div class="predict_result_list">
 					<view class="yx-rounded-20 result_item" v-for="item in kapaiList" :key="item.card_id">
 						<view class="yx-fw-bold yx-fsize-32">
-							State of luck of love affair?
+							{{$tm('h_020')}}
 						</view>
 						<view class="detail_kapai yx-mt-40 yx-mb-20">
 							<image :src="item.picture" mode=""></image>
 						</view>
 						<view class="yx-fw-bold yx-fsize-28">
-							The Wheel of Fortune (upright)
+							{{$tm('h_021')}}
 						</view>
 						<view class="predict_buttom" >
-							<view class="predict_desc" :class="item.isPay ? '':'mask unlock_desc'">{{item.comtent|| tipsText}}</view>
+							<view class="predict_desc" :class="item.isPay ? '':'mask unlock_desc'">{{item.comtent|| $tm('h_034')}}</view>
 							<view class="detail_need_buy yx-text-white yx-fsize-34 yx-flex-row-center-center" v-if="!item.isPay">
-								Unlock all content
+								{{$tm('h_023')}}
 							</view>
 						</view>
 					</view>
@@ -52,20 +52,20 @@
 		<template v-if="!is_lock">
 			<view class="yx-bg-white yx-m-x-20 yx-p-x-30 yx-pt-40 yx-mt-20 yx-rounded-20 yx-fsize-30 yx-pb-20">
 				<view class="yx-fw-bold">
-					Are you he/she's favorite person?
+					{{$tm('h_024')}}
 				</view>
 				<view class="yx-mt-20 yx-fw-500">
-					<text>Original price </text>
+					<text>{{$tm('h_025')}} </text>
 				</view>
 				<view class="yx-mt-20 yx-fw-500">
-					<text>Limited time offe </text>
+					<text>{{$tm('h_026')}}</text>
 				</view>
 				<view class="yx-p-20 yx-m-y-20 yx-rounded-20" style="border: 1rpx solid #B3B3B3;">
 					<input type="text" v-model="user_email" placeholder-class="yx-text-999" placeholder="Your mail" />
 				</view>
 				<view class="yx-flex-row-start-center">
 					<view class="agreebtn yx-rounded-c" :class="agreeVal ? 'agreeVal_active': ''" @tap="agreeVal = !agreeVal"></view>
-					<text class="yx-ml-20 yx-text-666">l agree to receive emails from Astrohealer</text>
+					<text class="yx-ml-20 yx-text-666">{{$tm('h_027')}}</text>
 				</view>
 				<view class="yx-h-1 yx-m-y-20" style="background: #F7F7F7;"></view>
 				<!-- <view class="yx-flex-row-spaceB-center">
@@ -84,7 +84,7 @@
 				</view> -->
 				<button class="pay_btn" :loading="isLoading" :disabled="!agreeVal" @tap="handleCheckPay">
 					<!-- $2.5Unlock all contentimmediately -->
-					{{isLoading?' loading...':`$${pay_amount} Unlock all contentimmediately`}}
+					{{isLoading?' loading...':`$${pay_amount}`+ $tm('h_028')}}
 				</button>
 			</view>
 		</template>
@@ -93,7 +93,7 @@
 
 <script setup>
 	import { ref, onMounted } from 'vue'
-	import { onShow,onLoad } from '@dcloudio/uni-app';
+	import { onLoad } from '@dcloudio/uni-app';
 	const app = getApp()
 	const agreeVal = ref(true)
 	const kapaiList = ref([])
@@ -107,7 +107,8 @@
 	const loveIndex = ref(3)
 	const orderDetail = ref({})
 	const amount = ref(null)
-	const tipsText = ref('Only after unlocking can you view the current results.')
+	const storeCode = uni.getStorageSync('couuent_code');
+	const reqApi = storeCode == 'AS' ? '/to/createThaiPayment':'to/createCheckoutSession';
 	onMounted(() => {})
 	onLoad((options) => {
 		if(options.gender){
@@ -161,8 +162,7 @@
 		}
 		data.cards = kapaiList.value.map(item=>{return item.card_id})
 		isLoading.value =true;
-		app.post('to/createCheckoutSession', data, function(res){
-			console.log(res);
+		app.post(reqApi, data, function(res){
 			setTimeout(()=>{isLoading.value =true;},5000)
 			if(res.code != 0) return;
 			uni.showLoading({title: "loading...",mask: true});
@@ -186,7 +186,7 @@
 				display: flex;
 				height: 102rpx;
 				color: #fff;
-				font-size: 36rpx;
+				font-size: 32rpx;
 				align-items: center;
 				justify-content: center;
 				background: #F7C3AA;

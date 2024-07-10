@@ -1,16 +1,14 @@
 <template>
 	<view class="custom_head">
 		<image class="bank_icon" src="/static/image/you1.png" @tap="$yx.route({url:`/`})"></image>
-		<text class="title_desc">Draw cards to solve puzzles</text>
+		<text class="title_desc">{{$tm('h_006')}}</text>
 	</view>
 	<view class="index_contain yx-pb-60">
 		<view class="index_contain_title">
-			<image src="/static/image/title.png" mode=""></image>
+			<image :src="`/static/image/${langIdx}_h.png`" mode=""></image>
 		</view>
 		<view class="index_kapai_list">
-			<!-- {{allCardList}} -->
 			<view :class="['index_kapai_list_type', chooseIndex.indexOf(item.card_id)!= -1 ?`index_kapai_sheng`:'']" :style="`left: ${((idx+1) * 4) - 2}%`" v-for="(item,idx) in allCardList" @click="yxClickNumberFn(item)">
-				<!-- {{item}} -->
 				<image src="/static/image/kapai.png" mode="scaleToFill"></image>
 			</view>
 		</view>
@@ -19,13 +17,6 @@
 			<view class="index_kapai_choosed_type" :class="[clickNumber > index ? `index_kapai_choosed_active${index+1}` : '']" v-for="(item,index) in chooseList" :key="`kapai-${index}`">
 				<image :src="item.picture" mode=""></image>
 			</view>
-			<!-- 			<view class="index_kapai_choosed_type" :class="[clickNumber > 1 ? 'index_kapai_choosed_active2' : '']">
-				<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/5_1.jpg" mode=""></image>
-			</view>
-			<view class="index_kapai_choosed_type" :class="[clickNumber > 2 ? 'index_kapai_choosed_active3' : '']">
-				<image src="https://1113.yx89.top/static/img/taluo/yunshi/images/2_0.jpg" mode=""></image>
-			</view> -->
-
 			<view class="index_kapai_choose_type">
 				<view class="index_kapai_choose_type_image"></view>
 			</view>
@@ -33,77 +24,33 @@
 				<view class="index_kapai_choose_type_image"></view>
 			</view>
 
-
 			<view class="index_kapai_choose_type2">
 				<view class="index_kapai_choose_type_image"></view>
 			</view>
 			<view class="index_kapai_test yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
 				<view class="">
-					Is he/she the right
+					{{$tm('h_007')}}
 				</view>
 				<view class="">
-					person for me
+					{{$tm('h_008')}}
 				</view>
 			</view>
 			<view class="index_kapai_test1 yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
 				<view class="">
-					Is it possible for us
+					{{$tm('h_009')}}
 				</view>
 				<view class="">
-					to get back together
+					{{$tm('h_010')}}
 				</view>
 			</view>
 			<view class="index_kapai_test2  yx-flex-col-center-center yx-fw-bold yx-fsize-22" style="color: #B17F54;">
 				<view class="">
-					What will happen when
+					{{$tm('h_011')}}
 				</view>
 				<view class="">
-					we get back together
+					{{$tm('h_012')}}
 				</view>
 			</view>
-			<!-- <image src="/static/" mode=""></image> -->
-			<!-- <view class="index_kapai_choose_type yx-flex-col-center-center ">
-				<view class="index_kapai_choose_type_image kapai_1">
-
-				</view>
-				<view class="index_kapai_choose_type_text yx-flex-col-center-center yx-fw-bold yx-fsize-22 yx-mt-20"
-					style="color: #B17F54;">
-					<view class="">
-						Is he/she the right
-					</view>
-					<view class="">
-						person for me
-					</view>
-				</view>
-			</view> -->
-			<!-- <view class="index_kapai_choose_type1 yx-flex-col-center-center kapai_2">
-				<view class="index_kapai_choose_type_image">
-
-				</view>
-				<view class="index_kapai_choose_type_text yx-flex-col-center-center yx-fw-bold yx-fsize-22 yx-mt-20"
-					style="color: #B17F54;">
-					<view class="">
-						Is it possible for us
-					</view>
-					<view class="">
-						to get back together
-					</view>
-				</view>
-			</view> -->
-			<!-- <view class="index_kapai_choose_type2 yx-flex-col-center-center">
-				<view class="index_kapai_choose_type_image">
-
-				</view>
-				<view class="index_kapai_choose_type_text yx-flex-col-center-center yx-fw-bold yx-fsize-22 yx-mt-20"
-					style="color: #B17F54;">
-					<view class="">
-						What will happen when
-					</view>
-					<view class="">
-						we get back together
-					</view>
-				</view>
-			</view> -->
 		</view>
 	</view>
 </template>
@@ -113,6 +60,7 @@
 	import { onLoad } from '@dcloudio/uni-app';
 	
 	const app = getApp()
+	let langIdx = ref('en')
 	const animateStart = ref(false)
 	const chooseList = ref([])
 	const timeNumber = ref(0)
@@ -123,6 +71,7 @@
 	const chooseIndex = ref([])
 	onLoad(async () => {
 		getTarotList();
+		langIdx.value = uni.getStorageSync("language")||'en';
 	})
 	const getTarotList = () => {
 		app.get('tc/getTarotCardList', {}, function(res){
